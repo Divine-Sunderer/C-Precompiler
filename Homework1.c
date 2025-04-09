@@ -13,6 +13,20 @@ bool checkFile(FILE * prova)
     return false;
 }
 
+char eliminaMultilinea(int i, int char_pointer , char riga[])
+{
+    while ( char_pointer < strlen(riga) || (riga[i] != '*' && riga[i+1] != '/')) {
+        riga[char_pointer] = ' ';
+        char_pointer++;
+    }
+    if(riga[i] != '*' && riga[i+1] != '/')
+    {
+        riga[i] = ' ';
+        riga[i+1] = ' ';
+    }
+  return *riga;
+}
+
 int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire comandi dal prompt
     int char_pointer;
     char riga[256]; // Vettore di caratteri per contenere una riga
@@ -51,10 +65,7 @@ int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire coma
                 if ( riga[i] == '/' && riga[i+1] == '*' ) {
                     char_pointer = i;
 
-                    while ( char_pointer < strlen(riga) || (riga[i] != '*' && riga[i+1] != '/')) {
-                        riga[char_pointer] = ' ';
-                        char_pointer++;
-                    }
+                    eliminaMultilinea(i,char_pointer,riga);
                 }
             }
         }else if (strstr(riga,"*/")) {
@@ -62,9 +73,7 @@ int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire coma
                 if ( riga[i] != '*' && riga[i+1] != '/') {
                     char_pointer = i;
 
-                    while ( char_pointer < strlen(riga) || /*Aggiungere la condizione che fa cancellare fino ad un carattere dopo -> */) {
-                        riga[char_pointer] = ' ';
-                    }
+                    eliminaMultilinea(i,char_pointer,riga);
                 }
             }
         }
