@@ -13,18 +13,20 @@ bool checkFile(FILE * prova)
     return false;
 }
 
-char eliminaMultilinea(int i, int char_pointer , char riga[])
+void eliminaMultilinea(int char_pointer , char riga[])
 {
-    while ( char_pointer < strlen(riga) || (riga[i] != '*' && riga[i+1] != '/')) {
-        riga[char_pointer] = ' ';
-        char_pointer++;
-    }
-    if(riga[i] != '*' && riga[i+1] != '/')
-    {
+  int i = char_pointer;
+
+    while ( riga[i] != '\0' ) {
+      if(riga[i] == '*' && riga[i+1] == '/')
+        {
+            riga[i] = ' ';
+            riga[i+1] = ' ';
+            break;
+        }
         riga[i] = ' ';
-        riga[i+1] = ' ';
+        i++;
     }
-  return *riga;
 }
 
 int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire comandi dal prompt
@@ -65,7 +67,7 @@ int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire coma
                 if ( riga[i] == '/' && riga[i+1] == '*' ) {
                     char_pointer = i;
 
-                    eliminaMultilinea(i,char_pointer,riga);
+                    eliminaMultilinea(char_pointer,riga);
                 }
             }
         }else if (strstr(riga,"*/")) {
@@ -73,12 +75,18 @@ int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire coma
                 if ( riga[i] != '*' && riga[i+1] != '/') {
                     char_pointer = i;
 
-                    eliminaMultilinea(i,char_pointer,riga);
+                    eliminaMultilinea(char_pointer,riga);
                 }
             }
         }
 
+        //Da aggiungere il commento multi linea...
 
+        /*
+            Rilevata        :)
+            Non rilevata    :(
+            Rilevata        :)
+         */
 
         printf("Letto : %s", riga);
     }
