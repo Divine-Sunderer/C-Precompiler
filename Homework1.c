@@ -13,6 +13,7 @@ bool checkFile(FILE * prova)
     return false;
 }
 
+//Da rivedere
 void eliminaMultilinea(int char_pointer , char riga[])
 {
   int i = char_pointer;
@@ -50,6 +51,13 @@ int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire coma
     // Cicla le righe
     while (fgets(riga, sizeof(riga), prova) != NULL) {
 
+         /*if ( bool == True && strstr(riga, "*\") == NULL)            <- Se Il booleano è true e non c'è il "fine commento" allora cancella tutto
+           for ( int i = 0 ; i < strlen(riga) ; i++ )
+            {
+                CANCELLA SINGOLI
+            }
+          */
+
         if (strstr(riga, "//") != NULL) {
             for ( int i = 0 ; i < strlen(riga) ; i++ ) {
                 if (riga[i] == '/' && riga[i+1] == '/') {
@@ -68,6 +76,8 @@ int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire coma
                     char_pointer = i;
 
                     eliminaMultilinea(char_pointer,riga);
+                    //Tipo qui possiamo mettere...
+                    // bool =  True; ( Continua su! )
                 }
             }
         }else if (strstr(riga,"*/")) {
@@ -86,6 +96,8 @@ int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire coma
             Rilevata        :)
             Non rilevata    :(
             Rilevata        :)
+
+            Possiamo inserire un booleano per aiutarci nella cancellazione
          */
 
         printf("Letto : %s", riga);
