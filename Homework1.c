@@ -51,12 +51,11 @@ int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire coma
     // Cicla le righe
     while (fgets(riga, sizeof(riga), prova) != NULL) {
 
-         /*if ( bool == True && strstr(riga, "*\") == NULL)            <- Se Il booleano è true e non c'è il "fine commento" allora cancella tutto
+         if ( bool == True && strstr(riga, "*/") == NULL)
            for ( int i = 0 ; i < strlen(riga) ; i++ )
             {
-                CANCELLA SINGOLI
+                riga[i] = ' ';
             }
-          */
 
         if (strstr(riga, "//") != NULL) {
             for ( int i = 0 ; i < strlen(riga) ; i++ ) {
