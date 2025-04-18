@@ -30,36 +30,30 @@ bool isNum(char carattere) {
         return false;
   }
 
-int controllo_variabili(char riga[], char tipo[], int index_file) {
-    int punta_char = 0 , conta_errori = 0;
+int contaOccorrenze(char *riga) {
+  int cont = 0;
+  for(int i = 0; i < strlen(riga); i++) {
+    if(riga[i] == '=')
+      cont++;
+  }
+  return cont;
+}
+
+int controllo_variabili(char riga[], int index_file) {
+    int punta_char = 0 , conta_errori = 0 , n_uguale = contaOccorrenze(riga);
     char nome_var[50];
 
-      if(strstr(riga,tipo) != NULL)
+    for( int i = strlen(riga) - 1; i >= 0; i--)
+    {
+        if( riga[i] == '=' )
         {
-          for(int i = 0; i < strlen(riga); i++)
-          {
-              if(riga[i] == ' ')
-                  continue;
-
-              if( riga[i] == 'i' && riga[i+1] == 'n' && riga[i+2] == 't' && riga[i+3] == ' ' )
-                {
-                    i = i + 4;                                                                                          // Mando avanti di 4 caratteri ( cosi arrivo al nome della variabile )
-                    punta_char = i;
-                    while(riga[i] != ';' && riga[i] != '\0')
-                      {
-                          i++;
-                      }
-                      strncpy(nome_var , riga + punta_char, (i - punta_char));
-                      nome_var[i - punta_char] = '\0';                                                                  //Chiudo la stringa manualmente
-                      if( isNum(nome_var[0]) || checkChar(nome_var) )
-                        {
-                            conta_errori++;
-                            printf("Errore nome_var alla riga : %d , non consentito",index_file);
-                        }
-                }
-          }
+            punta_char = i - 1;
+            n_uguale--;
         }
-        return conta_errori;
+    }
+
+
+    return conta_errori;
   }
 
 int main_controllo_variabili() {
@@ -78,7 +72,7 @@ int main_controllo_variabili() {
     }
 
     while(fgets(riga, sizeof(riga), input) != NULL) {
-      conta_errori = conta_errori + controllo_variabili(riga,"int",index_file);
+      conta_errori = conta_errori + controllo_variabili(riga,index_file);
 
       index_file++;
     }
@@ -95,4 +89,4 @@ int main_controllo_variabili() {
 *  https://en.wikipedia.org/wiki/C_data_types
 *
 *  Qui sopra ci sono tutti i tipi che vanno inseriti
- */
+*/
