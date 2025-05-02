@@ -16,6 +16,16 @@ int isDigit(char character[]) {
   return strlen(character) == 1 && startWithNum(character);
 }
 
+int containsBadChar(char variabile[]) {
+  char str_vietata[] = " !\"#%&'()*+,-./:;<=>?@[\\]^`{|}~$@€£§¶©®™✓°•½¼¾µ¤¿¡¨¸ªº×÷±¬ƒ¬„…‰†‡‹›";
+  for(int i = 0; i < strlen(str_vietata); i++) {
+    if(strchr(variabile, str_vietata[i])) {
+      return 1;   //Dunque nome variabile NON corretto
+    }
+  }
+  return 0;       //Dunque nome variabile corretto
+}
+
 void main() {
       char *variabili[50];                                        // <- Un vettore di stringhe
       int index = 0;
@@ -41,7 +51,7 @@ void main() {
             if (isDigit(variabili[i])) continue;            //Se la stringa è un singolo numero allora salta il controllo successivo
 
             //Se inizia per numero allora la variabile è ERRATA
-            if (startWithNum(variabili[i]) == 0) {
+            if (startWithNum(variabili[i]) == 0 && containsBadChar(variabili[i]) == 0) {
               printf("( %s ): E' una variabile corretta\n",variabili[i]);
             }else {
               printf("( %s ): E' una variabile ERRATA\n",variabili[i]);
