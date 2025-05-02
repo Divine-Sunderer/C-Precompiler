@@ -42,17 +42,11 @@ int controllo_variabili(char riga[] , int index_riga) {
           token = strtok(NULL, " ,;=");
         }
         //Adesso dentro "variabili" abbiamo tutta la riga spezzata , e la cicliamo con indice_token
-        for(int i = 0; i < strlen(variabili); i++) {
-              for(int j = 0; j < strlen(tipo); j++)
-                if(strstr(variabili[i], tipo[j])) {
-                  //Se un pezzo della stringa è uguale ad un tipo di variabile allora... farò qualcosa , ma non oggi
-                }
-        }
   }
 
 int main_controllo_variabili() {
   int conta_errori = 0;
-  int index_file = 1;
+  int index_file = 1;          // Tiene conto dell'indice della riga del file.c
   char riga[256];
 
   FILE *input;
@@ -70,7 +64,9 @@ int main_controllo_variabili() {
 
       index_file++;
     }
-  return 0;
+    fclose(input);
+  return conta_errori;
+  // Perché returniamo gli errori , no ? Il resto viene modificato ed inserito in un file
 }
 
 //IDEE
@@ -85,30 +81,23 @@ int main_controllo_variabili() {
 *  Qui sopra ci sono tutti i tipi che vanno inseriti
 */
 
-/*
-int contaOccorrenze(char *riga) {
-  int cont = 0;
-  for(int i = 0; i < strlen(riga); i++) {
-    if(riga[i] == '=')
-      cont++;
-  }
-  return cont;
-}
+/*int controllo_variabili(char riga[] , int index_riga) {
+        char *variabili[20];
+        char *tipo[9] = {"bool","char","signed","unsigned","short","int","long","float","double"};
+        int indice_token = 0;
+        int numero_tipi = 0;
 
-int controllo_variabili(char riga[], int index_file) {
-    int punta_char = 0 , conta_errori = 0 , n_uguale = contaOccorrenze(riga);
-    char nome_var[50];
-
-    for( int i = strlen(riga) - 1; i >= 0; i--)
-    {
-        if( riga[i] == '=' )
-        {
-            punta_char = i - 1;
-            n_uguale--;
+        char *token = strtok(riga, " ,;=");
+        while(token != NULL) {
+          variabili[indice_token++] = token;
+          token = strtok(NULL, " ,;=");
         }
-    }
-
-
-    return conta_errori;
-  }
-*/
+        //Adesso dentro "variabili" abbiamo tutta la riga spezzata , e la cicliamo con indice_token
+        for(int i = 0; i < indice_token; i++) {
+              for(int j = 0; j < 9; j++)                                                                                // 9 -> Grandezza vettore di stringhe di tipo[i]
+                if(strcmp(variabili[i], tipo[j]) == 0) {
+                  //Se un pezzo della stringa è uguale ad un tipo di variabile allora... farò qualcosa , ma non oggi
+                  numero_tipi++;
+                }
+        }
+  }*/
