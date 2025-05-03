@@ -26,7 +26,7 @@ int containsBadChar(char variabile[]) {
   return 0;       //Dunque nome variabile corretto
 }
 
-//Quando manca una virgola tra due variabili ( ed al suo posto c'è uno spazio ). *a e *b puntano rispettivamente al primo char della corrispettiva variabile
+//Quando manca una virgola tra due variabili (ed al suo posto c'è uno spazio). *a e *b puntano rispettivamente al primo char della corrispettiva variabile
 int missingComma(char *a , char *b) {
   while (a < b) {
     if (*a == ',') return 0;                          //Se troviamo tra a e b una virgola allora tutto apposto ammoh
@@ -39,9 +39,8 @@ int missingComma(char *a , char *b) {
 void main() {
       char *variabili[50];                                        // <- Un vettore di stringhe
       int index = 0;
-      char stringa[] = "int string char pietrobarbi = 3;";
+      char stringa[] = "int string char canzonedimerda = 3;";
       char *tipo[10] = {"string","bool","char","signed","unsigned","short","int","long","float","double"};
-
       //Salviamo una copia della stringa in str_copia-
       char str_copia[256];
       strcpy(str_copia,stringa);
@@ -55,11 +54,24 @@ void main() {
         for (int j = 0; j < 10; j++) {
           if (strcmp(variabili[i], tipo[j]) == 0) {
             printf("E' un tipo\n");
+
             i++;
             j = - 1;
+
             //In questo modo saltiamo alla parola successiva, cosi facendo risparmiamo un pò di tempo
           }
           if (j==9) {
+
+            if (i + 2 < index) {
+
+              // unsigned int var1 , var2 = el1, el2;
+              char *prima = strstr(str_copia, variabili[i+1]);
+              char *seconda = strstr(str_copia, variabili[i+2]);
+
+              if (missingComma(prima + strlen(variabili[i+1]), seconda)) {
+                printf("Variabili adiacenti senza virgola: %s %s\n", variabili[i+1], variabili[i+2]);
+              }
+            }
 
             if (isDigit(variabili[i])) continue;            //Se la stringa è un singolo numero allora salta il controllo successivo
 

@@ -42,6 +42,21 @@ int controllo_variabili(char riga[] , int index_riga) {
           token = strtok(NULL, " ,;=");
         }
         //Adesso dentro "variabili" abbiamo tutta la riga spezzata , e la cicliamo con indice_token
+
+
+        for (int i=0; i < strlen(variabili); i++) {
+          for (int j=0; j < 10; j++) { //iteriamo sulla lista dei tipi
+            if (variabili[i] == tipo[j]) {
+
+
+              }
+
+            elif(variabili[i] == "=") {
+
+
+
+
+        }
   }
 
 int main_controllo_variabili() {
@@ -69,35 +84,16 @@ int main_controllo_variabili() {
   // Perché returniamo gli errori , no ? Il resto viene modificato ed inserito in un file
 }
 
-//IDEE
-/*
-*  Nella riga 44 ( circa , non lo so ) dovremmo in teoria inserire UNA MAREA di casi diversi
-*  Ma inserirli tutti li è brutto visivamente , cosi stavo pensando di creare una funziona secondaria
-*  Il problema è che non so se sia fattibile farla con una sfilza di if oppure se uno switch sia possibile
-*  inserirlo... Non so , idee ?
-*
-*  https://en.wikipedia.org/wiki/C_data_types
-*
-*  Qui sopra ci sono tutti i tipi che vanno inseriti
-*/
+// - IDEE -
 
-/*int controllo_variabili(char riga[] , int index_riga) {
-        char *variabili[20];
-        char *tipo[9] = {"bool","char","signed","unsigned","short","int","long","float","double"};
-        int indice_token = 0;
-        int numero_tipi = 0;
+// SPLITTARE TUTTA LA STRINGA CON strtok. Una volta fatto otteniamo qualcosa del tipo -> ["unsigned", "int", "variabile", "sbagliata", "4"]
+// Cancellare tutte le stringhe che appartengono ai tipi. Una volta fatto riuniamo con strcat ( vedi come funge ) le stringhe rimanenti
+// Dovrebbe rimanerci una roba del tipo :
 
-        char *token = strtok(riga, " ,;=");
-        while(token != NULL) {
-          variabili[indice_token++] = token;
-          token = strtok(NULL, " ,;=");
-        }
-        //Adesso dentro "variabili" abbiamo tutta la riga spezzata , e la cicliamo con indice_token
-        for(int i = 0; i < indice_token; i++) {
-              for(int j = 0; j < 9; j++)                                                                                // 9 -> Grandezza vettore di stringhe di tipo[i]
-                if(strcmp(variabili[i], tipo[j]) == 0) {
-                  //Se un pezzo della stringa è uguale ad un tipo di variabile allora... farò qualcosa , ma non oggi
-                  numero_tipi++;
-                }
-        }
-  }*/
+// variabile sbagliata 4 ( anche i numeri dovremmo escluderli )
+
+// Adesso facciamo i dovuti controlli ma A MANO , segnando le singole casistiche
+
+// int variabile=0;
+
+// DIVENTA -> "variabile=0;"
