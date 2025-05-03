@@ -26,12 +26,25 @@ int containsBadChar(char variabile[]) {
   return 0;       //Dunque nome variabile corretto
 }
 
+//Quando manca una virgola tra due variabili ( ed al suo posto c'è uno spazio ). *a e *b puntano rispettivamente al primo char della corrispettiva variabile
+int missingComma(char *a , char *b) {
+  while (a < b) {
+    if (*a == ',') return 0;                          //Se troviamo tra a e b una virgola allora tutto apposto ammoh
+    if (*a != ' ' && *a != '\t') return 1;            //Se troviamo qualcosa che NON è spazio/tab e NON è virgola ERRORE
+    a++;
+  }
+  return 1;                                           //Se arriviamo alla fine senza trovare virgole ERRORE
+}
+
 void main() {
       char *variabili[50];                                        // <- Un vettore di stringhe
       int index = 0;
-      char stringa[] = "int string char madicoio = 3;";
+      char stringa[] = "int string char pietrobarbi = 3;";
       char *tipo[10] = {"string","bool","char","signed","unsigned","short","int","long","float","double"};
 
+      //Salviamo una copia della stringa in str_copia-
+      char str_copia[256];
+      strcpy(str_copia,stringa);
 
       char *token = strtok(stringa, " ,;=");                // <- Spezza la stringa una prima volta
       while(token != NULL) {
