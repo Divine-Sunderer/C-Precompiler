@@ -37,55 +37,25 @@ int missingComma(char *a , char *b) {
 }
 
 void main() {
-      char *variabili[50];                                        // <- Un vettore di stringhe
-      int index = 0;
-      char stringa[] = "int string char canzonedimerda = 3;";
-      char *tipo[10] = {"string","bool","char","signed","unsigned","short","int","long","float","double"};
-      //Salviamo una copia della stringa in str_copia-
-      char str_copia[256];
-      strcpy(str_copia,stringa);
+  char *variabili[50];                                        // <- Un vettore di stringhe
+  int index = 0;
+  char stringa[] = "int string char canzonedimerda = 3;";
+  char *tipo[10] = {"string","bool","char","signed","unsigned","short","int","long","float","double"};
 
-      char *token = strtok(stringa, " ,;=");                // <- Spezza la stringa una prima volta
-      while(token != NULL) {
-        variabili[index++] = token;
-        token = strtok(NULL, " ,;=");                         // <- Continua a spezzarla fino a quando non è più possibile
-      }
-      for (int i = 0; i < index; i++) {
-        for (int j = 0; j < 10; j++) {
-          if (strcmp(variabili[i], tipo[j]) == 0) {
-            printf("E' un tipo\n");
-
-            i++;
-            j = - 1;
-
-            //In questo modo saltiamo alla parola successiva, cosi facendo risparmiamo un pò di tempo
-          }
-          if (j==9) {
-
-            if (i + 2 < index) {
-
-              // unsigned int var1 , var2 = el1, el2;
-              char *prima = strstr(str_copia, variabili[i+1]);
-              char *seconda = strstr(str_copia, variabili[i+2]);
-
-              if (missingComma(prima + strlen(variabili[i+1]), seconda)) {
-                printf("Variabili adiacenti senza virgola: %s %s\n", variabili[i+1], variabili[i+2]);
-              }
-            }
-
-            if (isDigit(variabili[i])) continue;            //Se la stringa è un singolo numero allora salta il controllo successivo
-
-            //Se inizia per numero allora la variabile è ERRATA
-            if (startWithNum(variabili[i]) == 0 && containsBadChar(variabili[i]) == 0) {
-              printf("( %s ): E' una variabile corretta\n",variabili[i]);
-            }else {
-              printf("( %s ): E' una variabile ERRATA\n",variabili[i]);
-            }
-          }
-        }
-        //printf("%s\n", variabili[i]);
-      }
+  char *token = strtok(stringa, " ");                // <- Spezza la stringa una prima volta
+  while(token != NULL) {
+    variabili[index++] = token;
+    token = strtok(NULL, " ");                         // <- Continua a spezzarla fino a quando non è più possibile
   }
+  for (int i = 0; i < index; i++) {
+    for (int j = 0; j < 10; j++) {
+      if (strcmp(variabili, tipo[j]) == 0) {
+
+      }
+    }
+    printf("%s", variabili[i]);
+  }
+}
 
 
 
