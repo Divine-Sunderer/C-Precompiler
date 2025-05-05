@@ -22,10 +22,16 @@ int checkType(char *token, char *tipo[], int tipoSize) {
 void main() {
   int index = 0;
 
-  char stringa[] = "int string char canzonedimerda = 3;";
+  char stringa[] = "int char canzonedimerda = 3;";
   char str_half[50] = "";
   char *variabili[20];
-  char *tipo[10] = {"string","bool","char","signed","unsigned","short","int","long","float","double"};
+  const char* tipo[] = {
+    "auto", "break", "case", "char", "const", "continue", "default", "do",
+    "double", "else", "enum", "extern", "float", "for", "goto", "if",
+    "int", "long", "register", "return", "short", "signed", "sizeof", "static",
+    "struct", "switch", "typedef", "union", "unsigned", "void", "volatile", "while"
+};
+  int tipo_lenght = sizeof(tipo) / sizeof(tipo[0]);
 
   for(int i = 0; stringa[i] != '\0'; i++) {
     if(stringa[i] != '=' && stringa[i] != ';') {
@@ -40,7 +46,7 @@ void main() {
   // Tokenizziamo per spazi
   char *token = strtok(str_half, " ,\t\n");
   while(token != NULL) {
-    if (!checkType(token,tipo,10)) {              // Se il token NON è un tipo allora lo considera VARIABILE e la salva nell'array
+    if (!checkType(token,tipo,tipo_lenght)) {              // Se il token NON è un tipo allora lo considera VARIABILE e la salva nell'array
       variabili[index++] = token;
     }
     token = strtok(NULL, " ,\t\n");                // Continua a splittare spazi
