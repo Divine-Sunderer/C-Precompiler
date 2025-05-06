@@ -1,62 +1,57 @@
-//Programma esempio che può tornare utile - tocca studiarlo
-
 #include <ctype.h>
 #include<stdio.h>
 #include<string.h>
 
-//Returna 1 se inizia per numero, altrimenti returna 0
-int startWithNum(char variabile[]) {
-    if (variabile != NULL && variabile[0] >= '0' && variabile[0] <= '9') {
-      return 1;
-    }
+int isValidName(char *var) {
+  if (!var || (!isalpha(var[0]) && var[0] != '_')) return 0;
+
+  for (int i = 1; var[i]; i++) {
+    if (!isalnum(var[i]) && var[i] != '_') return 0;
+  }
+
+  return 1;
+}
+
+int checkType(char *token, char *tipo[], int tipoSize) {
+  for (int i = 0; i < tipoSize; i++) {
+    if (strcmp(token, tipo[i]) == 0) return 1;
+  }
   return 0;
 }
 
-int isDigit(char character[]) {
-  return strlen(character) == 1 && startWithNum(character);
-}
-
-int containsBadChar(char variabile[]) {
-  char str_vietata[] = " !\"#%&'()*+,-./:;<=>?@[\\]^`{|}~$@€£§¶©®™✓°•½¼¾µ¤¿¡¨¸ªº×÷±¬ƒ¬„…‰†‡‹›";
-  for(int i = 0; i < strlen(str_vietata); i++) {
-    if(strchr(variabile, str_vietata[i])) {
-      return 1;   //Dunque nome variabile NON corretto
-    }
-  }
-  return 0;       //Dunque nome variabile corretto
-}
-
-//Quando manca una virgola tra due variabili (ed al suo posto c'è uno spazio). *a e *b puntano rispettivamente al primo char della corrispettiva variabile
-int missingComma(char *a , char *b) {
-  while (a < b) {
-    if (*a == ',') return 0;                          //Se troviamo tra a e b una virgola allora tutto apposto ammoh
-    if (*a != ' ' && *a != '\t') return 1;            //Se troviamo qualcosa che NON è spazio/tab e NON è virgola ERRORE
-    a++;
-  }
-  return 1;                                           //Se arriviamo alla fine senza trovare virgole ERRORE
+char* eliminaSpazi(char str[]) {
+  int i = 0;
+  char *finale = "";
+  while (str[i] == ' ') i++;
+  while (str[i] != '\0') finale[i] = str[i++];
+  return finale;
 }
 
 void main() {
-  char *variabili[50];                                        // <- Un vettore di stringhe
   int index = 0;
-  char stringa[] = "int string char canzonedimerda = 3;";
-  char *tipo[10] = {"string","bool","char","signed","unsigned","short","int","long","float","double"};
 
-  char *token = strtok(stringa, " ");                // <- Spezza la stringa una prima volta
-  while(token != NULL) {
-    variabili[index++] = token;
-    token = strtok(NULL, " ");                         // <- Continua a spezzarla fino a quando non è più possibile
-  }
-  for (int i = 0; i < index; i++) {
-    for (int j = 0; j < 10; j++) {
-      if (strcmp(variabili, tipo[j]) == 0) {
+  //char stringa[] = "int char canzon,edimerda rrrr = 3;";
+  char stringa[] = "int pippo = 3;";
+  char finale[] = "";
+  const char* tipo[] = {
+    "auto", "break", "case", "char", "const", "continue", "default", "do",
+    "double", "else", "enum", "extern", "float", "for", "goto", "if",
+    "int", "long", "register", "return", "short", "signed", "sizeof", "static",
+    "struct", "switch", "typedef", "union", "unsigned", "void", "volatile", "while"
+};
+  const int tipo_lenght = sizeof(tipo) / sizeof(tipo[0]);
 
+  for (int i = 0; i < tipo_lenght; i++) {
+    char *pos = strstr(stringa, tipo[i]);       //Cerchiamo il tipo come sottostringa
+
+    //Se lo trova allora potrei far fare i-- , cosi che ricontrolli nuovamente per lo stesso tipo se ce ne è un'altra
+    if (pos != NULL) {
+      index = pos - stringa;          //Calcoliamo l'indice sottraendo i puntatori
+      for (int j = 0; j < strlen(tipo[i]); j++) {
+        stringa[index++] = ' ';
       }
+      i--;
     }
-    printf("%s", variabili[i]);
   }
+  printf("%s",stringa);
 }
-
-
-
-// Qui sto facendo dei test per vedere come agire con strtok
