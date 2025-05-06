@@ -1,18 +1,15 @@
-#include <ctype.h>
+#include<ctype.h>
 #include<stdio.h>
 #include<string.h>
 
-// 0 - No problem , 1 - problem
-int checkVar(char *var) {
-  for (int i = 0; var[i] != '\0'; i++) {
-    if (var[i] == '\0') return 0;                                                                                       // Se è il carattere di terminazione stringa allora non va bene
-  if (var[i] == ' ' && isalnum()) return 1; {
+int isValidName(char *var) {
+  if (!var || (!isalpha(var[0]) && var[0] != '_')) return 0;
 
-
-    }else if (!isalnum(var[i])) {                                                                                             // Se il carattere non è alfanumerico
-      printf("Errore nella stringa -> %s!\n",var);
-    }
+  for (int i = 1; var[i]; i++) {
+    if (!isalnum(var[i]) && var[i] != '_') return 0;
   }
+
+  return 1;
 }
 
 char* eliminaSpaziIniziali(char str[]) {
@@ -23,10 +20,11 @@ char* eliminaSpaziIniziali(char str[]) {
 
 void main() {
   int index = 0;
-  int fine_stringa;
 
-  //char stringa[] = "int char canzon,edimerda rrrr = 3;";
-  char stringa[] = "int pippo, paperino = 3;";
+  char *variabili[20];                                                                                                  // Andra' a contenere le variabili spezzate
+  int index_variabili = 0;
+  char stringa[] = "int char canzon,edimerda rrrr = 3;";
+  //char stringa[] = "int pippo, paperino = 3;";
   const char* tipo[] = {
     "auto", "break", "case", "char", "const", "continue", "default", "do",
     "double", "else", "enum", "extern", "float", "for", "goto", "if",
@@ -56,26 +54,27 @@ void main() {
     index = i;
   }
   finale[index-2] = '\0';
-  printf("%s\nLunghezza -> %d\n", finale,strlen(finale));                                                                                         // Qui abbiamo il nome della/delle variabili senza ne tipi ne uguale
+  //printf("%s\nLunghezza -> %d\n", finale,strlen(finale));                                                         // Qui abbiamo il nome della/delle variabili senza ne tipi ne uguale
   //-----------------------------------------------------------------
 
-
+  char *token = strtok(finale, ",");                                                                              // Spezza la stringa una prima volta
+  while (token != NULL) {
+    variabili[index_variabili++] = token;
+    token = strtok(NULL, ",");                                                                                    // Continua a spezzarla fino a quando non e' piu' possibile
+  }
+  for (int i = 0; i < index_variabili; i++) {
+    variabili[i] = eliminaSpaziIniziali(variabili[i]);
+    if (isValidName(variabili[i])) {
+      printf("%s VALIDA\n", variabili[i]);
+    }else {
+      printf("%s NON-VALIDA\n", variabili[i]);
+    }
+  }
 }
 
 
 
 /* FUNZIONI NON USATE MA PROBABILMENTE UTILI
- *
-* int isValidName(char *var) {
-  if (!var || (!isalpha(var[0]) && var[0] != '_')) return 0;
-
-  for (int i = 1; var[i]; i++) {
-    if (!isalnum(var[i]) && var[i] != '_') return 0;
-  }
-
-  return 1;
-}
-
 int checkType(char *token, char *tipo[], int tipoSize) {
   for (int i = 0; i < tipoSize; i++) {
     if (strcmp(token, tipo[i]) == 0) return 1;
