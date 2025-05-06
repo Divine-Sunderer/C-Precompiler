@@ -30,7 +30,7 @@ void main() {
   int fine_stringa;
 
   //char stringa[] = "int char canzon,edimerda rrrr = 3;";
-  char stringa[] = "int pippo = 3;";
+  char stringa[] = "int pippo, paperino = 3;";
   const char* tipo[] = {
     "auto", "break", "case", "char", "const", "continue", "default", "do",
     "double", "else", "enum", "extern", "float", "for", "goto", "if",
@@ -59,21 +59,7 @@ void main() {
     finale[i] = ' ';
     index = i;
   }
-  finale[index-1] = ' ';
-  printf("%s\n", finale);                                                                                         // Qui abbiamo il nome della/delle variabili senza ne tipi ne uguale
+  finale[index-2] = '\0';
+  printf("%s\nLunghezza -> %d\n", finale,strlen(finale));                                                                                         // Qui abbiamo il nome della/delle variabili senza ne tipi ne uguale
   //-----------------------------------------------------------------
-  for (int i = 0;  i < strlen(finale); i++) {
-    if (finale[i] == ' ') {
-      fine_stringa = i;
-      break;
-    }
-  }
-
-  char end[fine_stringa+1];
-  for (int i = 0; i < fine_stringa; i++) {
-    end[i] = finale[i];
-  }
-  end[fine_stringa] = '\0';                                                                                             // Se non la terminiamo allora si rischia di andare incontro a dei bug fastidiosi
-
-  printf("%s\n", end);
 }
