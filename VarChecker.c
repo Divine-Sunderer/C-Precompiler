@@ -29,8 +29,8 @@ void main() {
   const char* tipo[] = {
     "auto", "break", "case", "char", "const", "continue", "default", "do",
     "double", "else", "enum", "extern", "float", "for", "goto", "if",
-    "int", "long", "register", "return", "short", "signed", "sizeof", "static",
-    "struct", "switch", "typedef", "union", "unsigned", "void", "volatile", "while"
+    "int", "long", "register", "return", "short", "unsigned", "sizeof", "static",
+    "struct", "switch", "typedef", "union", "signed", "void", "volatile", "while"
 };
   const int tipo_lenght = sizeof(tipo) / sizeof(tipo[0]);
 
