@@ -57,7 +57,8 @@ void main() {
   }
   finale[index-2] = '\0';
   }else{
-    finale[index+1] = '\0';
+    index = strlen(finale);
+    finale[index-1] = '\0';
   }
 
   //printf("%s\nLunghezza -> %d\n", finale,strlen(finale));                                                         // Qui abbiamo il nome della/delle variabili senza ne tipi ne uguale
