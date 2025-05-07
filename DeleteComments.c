@@ -1,14 +1,6 @@
-//Piccolo programma di prova ( non testato ) per vedere se un file si apre correttamente
-
 #include<stdio.h>
 #include<string.h>
 #include<stdbool.h>
-
-/*
-
-//commento
-
-*/
 
 bool checkFile(FILE * prova)
 {
@@ -18,15 +10,6 @@ bool checkFile(FILE * prova)
     }
     return false;
 }
-/*
-char string[] = "stringa //";
-controllo anche per '';
-controlla intervallo in cui sono le stringhe -> qui 16-27
-strchr("//") -> BUT cerca l'index di queste
-se index in intervallo 16-27 allora NOT COMMENTO
-
-char stringa[] = "stringa//"; //commento
-*/
 
 //Da rivedere
 void eliminaMultilinea(int char_pointer , char riga[])
@@ -50,6 +33,7 @@ void eliminaSingola(int char_pointer , char riga[]) {
 
   while( riga[i] != '*' && riga[i+1] != '/' ) {
         riga[i] = ' ';
+        i++;
     }
     riga[i] = ' ';
     riga[i+1] = ' ';
@@ -61,7 +45,6 @@ int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire coma
     char riga[256]; // Vettore di caratteri per contenere una riga
     char carattere;
     FILE *prova;
-    char string[] = "/*commento ancora più fasullo*/"; //è una stringa, non un commento;
 
     prova = fopen("inserire file di test", "w+");
     // w+ apre il file in lettura e scrittura. Anche r+ fa lo stesso , ma senza andarlo a creare se inesistente
@@ -78,6 +61,7 @@ int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire coma
     // Cicla le righe
     while (fgets(riga, sizeof(riga), prova) != NULL) {
 
+      //TODO Forse questo if-case và spostato in fondo a tutti gli altri
          if ( delete == true ) {
            for ( int i = 0 ; i < strlen(riga) ; i++ )
             {
@@ -89,7 +73,7 @@ int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire coma
         if(strstr(riga, "/*") != NULL && strstr(riga,"*/") != NULL)
           {
           for(int i = 0; i < strlen(riga); i++) {
-                if(riga[i] == '*' && riga[i+1] == '/')
+                if(riga[i] == '/' && riga[i+1] == '*')
                   char_pointer = i;
 
                   eliminaSingola(char_pointer, riga);
@@ -126,6 +110,7 @@ int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire coma
             }
         }
         printf("Letto : %s", riga);
+        //TODO Ricorda che stiamo lavorando ANCORA con le stringhe. Tale stringa va riscritta sul file
     }
     return 0;
 }
