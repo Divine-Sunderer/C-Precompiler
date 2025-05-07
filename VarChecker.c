@@ -23,8 +23,9 @@ void main() {
 
   char *variabili[20];                                                                                                  // Andra' a contenere le variabili spezzate
   int index_variabili = 0;
-  char stringa[] = "int char canzon,edimerda rrrr = 3;";
+  //char stringa[] = "int char canzon,edimerda rrrr = 3;";
   //char stringa[] = "int pippo, paperino = 3;";
+  char stringa[] = "int ciao;";
   const char* tipo[] = {
     "auto", "break", "case", "char", "const", "continue", "default", "do",
     "double", "else", "enum", "extern", "float", "for", "goto", "if",
@@ -49,11 +50,16 @@ void main() {
   char *finale = eliminaSpaziIniziali(stringa);
   //printf("%s\n",finale);
 
-  for (int i = strlen(finale); finale[i] != '=' ; i--) {
+  if (strchr(finale, '=')) {
+    for (int i = strlen(finale); finale[i] != '=' ; i--) {
     finale[i] = ' ';
     index = i;
   }
   finale[index-2] = '\0';
+  }else{
+    finale[index+1] = '\0';
+  }
+
   //printf("%s\nLunghezza -> %d\n", finale,strlen(finale));                                                         // Qui abbiamo il nome della/delle variabili senza ne tipi ne uguale
   //-----------------------------------------------------------------
 
