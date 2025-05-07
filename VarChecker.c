@@ -78,14 +78,3 @@ void main() {
     }
   }
 }
-
-
-
-/* FUNZIONI NON USATE MA PROBABILMENTE UTILI
-int checkType(char *token, char *tipo[], int tipoSize) {
-  for (int i = 0; i < tipoSize; i++) {
-    if (strcmp(token, tipo[i]) == 0) return 1;
-  }
-  return 0;
-}
- */
