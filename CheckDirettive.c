@@ -13,7 +13,7 @@ int main() {
   int count_str = 0;
   FILE *principale , *dir, *nuovo;
 
-  principale = fopen("prova.txt", "r+");
+  principale = fopen("test1.c", "r+");
   nuovo = fopen("nuovo_prova_1.txt", "w+");
   if (!principale) return 1;
   if (!nuovo) return 1;
