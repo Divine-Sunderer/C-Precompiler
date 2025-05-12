@@ -44,7 +44,7 @@ int main() {
 };
 
   const int tipo_lenght = sizeof(tipo) / sizeof(tipo[0]);
-  principale = fopen("test1.c", "r+");
+  principale = fopen("test1_no_comment.c", "r+");
   if (!principale) return 1;
 
   while (fgets(stringa, sizeof(stringa), principale)) {
@@ -91,8 +91,14 @@ int main() {
   char *token = strtok(finale, ",");                                                                              // Spezza la stringa una prima volta
   while (token != NULL) {
     variabili[index_variabili++] = token;
-    token = strtok(NULL, ",");                                                                                    // Continua a spezzarla fino a quando non e' piu' possibile
+    token = strtok(NULL, ",");
+    // Continua a spezzarla fino a quando non e' piu' possibile
   }
+
+     /*for (int i = 0; i<index_variabili; i++) {
+      printf("%s\n",variabili[i]);
+    } */
+
   for (int i = 0; i < index_variabili; i++) {
     variabili[i] = eliminaSpaziIniziali(variabili[i]);
     if (isValidName(variabili[i])) {
