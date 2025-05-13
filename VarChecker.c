@@ -106,6 +106,7 @@ int main() {
       index = strlen(finale);
     }
     finale[index-1] = '\0';
+    //Cambiato qui sopra
 
     char *token = strtok(finale, ",");                                                                              // Spezza la stringa una prima volta
     while (token != NULL) {
