@@ -51,6 +51,7 @@ char* charCleaner(char *str) {
 
 int main() {
   int index = 0;
+  int indice_riga = 0;
   bool trovato = false;
   FILE *principale;
 
@@ -71,6 +72,7 @@ int main() {
 
   while (fgets(stringa, sizeof(stringa), principale)) {
       index_variabili = 0;
+      indice_riga++;
       trovato = false;
 
       for (int i = 0; i < tipo_lenght; i++) {
@@ -95,7 +97,7 @@ int main() {
       }
 
     char *finale = eliminaSpaziIniziali(stringa);
-    printf("%s\n", finale);
+    //printf("%s\n", finale);
 
     if (strchr(finale, '=')) {
       for (int i = strlen(finale); finale[i] != '=' ; i--) {
@@ -119,10 +121,14 @@ int main() {
 
     for (int i = 0; i < index_variabili; i++) {
       variabili[i] = eliminaSpaziIniziali(variabili[i]);
+
+      if (strchr(variabili[i], '(') || strchr(variabili[i], ')')) continue;
+      //|| strchr(variabili[i], '[') || strchr(variabili[i], ']')
+
       if (isValidName(variabili[i])) {
-        printf("%s -> VALIDA\n", variabili[i]);
+        printf("%s -> VALIDA\n----------------------------------------\n", variabili[i]);
       }else {
-        printf("%s -> NON-VALIDA\n", variabili[i]);
+        printf("%s -> ERRORE nella riga %d\n----------------------------------------\n", variabili[i],indice_riga);
       }
     }
   }
