@@ -11,108 +11,92 @@ bool checkFile(FILE * prova)
     return false;
 }
 
-//Da rivedere
-void eliminaMultilinea(int char_pointer , char riga[])
-{
-  int i = char_pointer;
+int main(int argc, char * argv[]) {
+  bool delete = false;
+  char riga[256];
+  FILE *prova;
+  FILE *temp;
+  int i;
 
-    while ( riga[i] != '\0' ) {
-      if(riga[i] == '*' && riga[i+1] == '/')
-        {
+  prova = fopen("test/test2.c", "r");
+  temp = fopen("test/prova_temp.txt", "w+");
+
+  // w+ apre il file in lettura e scrittura. Anche r+ fa lo stesso , ma senza andarlo a creare se inesistente
+
+  if (checkFile(prova) && checkFile(temp)) {
+    printf("File aperti correttamente\n");
+  } else {
+    perror("ricontrolla!\n");
+    return 0;
+  }
+
+  // Cicla le righe
+  while(fgets(riga, sizeof(riga), prova) != NULL) {
+
+    if (strstr(riga, "/*") && strstr(riga, "*/")) {
+      for (int y = 0; y < (int)strlen(riga); y++) {
+        if (riga[y] == '/' && riga[y+1] == '*') {
+          while (!(riga[y] == '*' && riga[y+1] == '/') && y < (int)strlen(riga) - 1) {
+            riga[y] = ' ';
+            y++;
+          }
+          // cancella anche */
+          riga[y] = ' ';
+          riga[y+1] = ' ';
+          break;
+        }
+      }
+    }
+
+    else if (strstr(riga, "/*") != NULL) {
+      for ( i = 0 ; i < (int)strlen(riga) -1 ; i++ ) {
+        if ( riga[i] == '/' && riga[i+1] == '*' ) {
+          delete = true;
+          riga[i] = ' ';
+          riga[i+1] = ' ';
+          break;
+        }
+      }
+
+      while(delete == true && fgets(riga, sizeof(riga)-1, prova) != NULL) {
+        for (i=0; i < strlen(riga); i++) {
+          if (riga[i] == '*' && riga[i+1] == '/') {
+            delete = false;
             riga[i] = ' ';
             riga[i+1] = ' ';
             break;
+          }
+          else {
+            riga[i] = ' ';
+          }
         }
-        riga[i] = ' ';
-        i++;
+        i = 0; //ricominciamo dall'inizio della riga successiva
+      }
     }
+
+    else if (strstr(riga, "//") != NULL) {
+      char *comment_start = strstr(riga, "//");
+      if (comment_start != NULL) {
+        *comment_start = '\0';
+      }
+    }
+    // Scrive la riga pulita nel file temporaneo
+    if (strlen(riga) > 0) {
+      // Se la riga non finisce con \n, lo aggiungiamo noi
+      size_t len = strlen(riga);
+      if (riga[len - 1] != '\n') {
+        fprintf(temp, "%s\n", riga);
+      } else {
+        fprintf(temp, "%s", riga);
+      }
+    }
+  }
+
+  fclose(prova);
+  fclose(temp);
+
+  remove("test/prova.txt");
+  rename("test/temp.txt", "test/prova.txt");
+  printf("File sovrascritto con i commenti rimossi.\n");
+  return 0;
 }
-
-void eliminaSingola(int char_pointer , char riga[]) {
-  int i = char_pointer;
-
-  while( riga[i] != '*' && riga[i+1] != '/' ) {
-        riga[i] = ' ';
-        i++;
-    }
-    riga[i] = ' ';
-    riga[i+1] = ' ';
-}
-
-int main(int argc, char * argv[]) { //argc e argv ci permettono di inserire comandi dal prompt
-    int char_pointer;
-    bool delete = false;
-    char riga[256]; // Vettore di caratteri per contenere una riga
-    char carattere;
-    FILE *prova;
-
-    prova = fopen("inserire file di test", "w+");
-    // w+ apre il file in lettura e scrittura. Anche r+ fa lo stesso , ma senza andarlo a creare se inesistente
-
-    if (checkFile(prova)) {
-        printf("File aperto correttamente ");
-    } else {
-        perror("File inesistente!");
-        return 0;
-    }
-
-    rewind(prova); // riporta il puntatore all'inizio
-
-    // Cicla le righe
-    while (fgets(riga, sizeof(riga), prova) != NULL) {
-
-      //TODO Forse questo if-case và spostato in fondo a tutti gli altri
-         if ( delete == true ) {
-           for ( int i = 0 ; i < strlen(riga) ; i++ )
-            {
-                riga[i] = ' ';
-            }
-            continue;
-         }
-
-        if(strstr(riga, "/*") != NULL && strstr(riga,"*/") != NULL)
-          {
-          for(int i = 0; i < strlen(riga); i++) {
-                if(riga[i] == '/' && riga[i+1] == '*')
-                  char_pointer = i;
-
-                  eliminaSingola(char_pointer, riga);
-            }
-        }else if (strstr(riga, "//") != NULL) {
-            for ( int i = 0 ; i < strlen(riga) ; i++ ) {
-                if (riga[i] == '/' && riga[i+1] == '/') {
-                    char_pointer = i;
-
-                    while ( char_pointer < strlen(riga) ) {
-                        riga[char_pointer] = ' ';
-                        char_pointer++;
-                    }
-                    break;
-                }
-            }
-        }else if (strstr(riga, "/*") != NULL) {
-            for ( int i = 0 ; i < strlen(riga) ; i++ ) {
-                if ( riga[i] == '/' && riga[i+1] == '*' ) {
-                    char_pointer = i;
-
-                    eliminaMultilinea(char_pointer,riga);
-                    delete = true;
-                }
-            }
-        }else if (strstr(riga,"*/") != NULL) {
-            for ( int i = 0 ; i < strlen(riga) ; i++ ) {
-                if ( riga[i] != '*' && riga[i+1] != '/') {
-                    char_pointer = i;
-
-                    eliminaMultilinea(char_pointer,riga);
-                    delete = false;
-                }
-            }
-        }
-        printf("Letto : %s", riga);
-        //TODO Ricorda che stiamo lavorando ANCORA con le stringhe. Tale stringa va riscritta sul file
-    }
-    return 0;
-}
-
-// for(int i = 0, j = 1; riga[i] != '*' && riga[j] != '/'; j++, i++)
