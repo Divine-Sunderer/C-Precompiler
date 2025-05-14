@@ -2,7 +2,7 @@
 #include<string.h>
 #include<stdbool.h>
 
-bool checkFile(FILE * prova)
+bool checkFile(FILE *prova)
 {
     if( prova )
     {
@@ -11,7 +11,7 @@ bool checkFile(FILE * prova)
     return false;
 }
 
-int main(int argc, char * argv[]) {
+int deleteComments(int argc, char * argv[]) {
   bool delete = false;
   char riga[256];
   FILE *prova;

@@ -2,16 +2,19 @@
 #include<stdlib.h>
 #include<string.h>
 #include<stdbool.h>
-
 // return 1 -> file non aperto correttamente
 // ruturn 2 -> errore inerente a malloc
 
-int main() {
+int checkInclude(FILE *principale) {
   char riga[256] , raw[256];
   char *str_din , *inizio , *fine;
   bool start = false;
   int count_str = 0;
-  FILE *principale , *dir, *nuovo;
+  FILE *dir, *nuovo;
+
+  FILE *statistiche = fopen("statistiche.txt", "r");
+  int count_include = 0;
+  // Principale -> file su cui lavorare , dir -> file da includere , nuovo -> file "in return" con modifiche
 
   principale = fopen("test1.c", "r+");
   nuovo = fopen("nuovo_prova_1.txt", "w+");
@@ -48,6 +51,7 @@ int main() {
         str_din[fine - inizio] = '\0';              //Altrimenti non avrebbe fine
 
         dir = fopen(str_din, "r+");
+        count_include++;
 
         while(fgets(raw, sizeof(raw), dir) != NULL){
           fprintf(nuovo,"%s", raw);
@@ -58,6 +62,9 @@ int main() {
         fprintf(nuovo,"%s",riga);
       }
   }
+
+  fprintf(statistiche, "numero di file inclusi: %d\n", count_include);
+  fclose(statistiche);
   fclose(nuovo);
   fclose(principale);
   return 0;

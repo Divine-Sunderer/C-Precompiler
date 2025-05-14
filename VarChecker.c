@@ -49,11 +49,14 @@ char* charCleaner(char *str) {
   return str;
 }
 
-int main() {
+int varChecker() {
   int index = 0;
   int indice_riga = 0;
   bool trovato = false;
   FILE *principale;
+
+  int count_valid = 0;
+  int count_invalid = 0;
 
   char *variabili[20];                                                                                                  // Andra' a contenere le variabili spezzate
   int index_variabili = 0;
@@ -123,12 +126,15 @@ int main() {
       variabili[i] = eliminaSpaziIniziali(variabili[i]);
 
       if (strchr(variabili[i], '(') || strchr(variabili[i], ')')) continue;
-      //|| strchr(variabili[i], '[') || strchr(variabili[i], ']')
 
       if (isValidName(variabili[i])) {
         printf("%s -> VALIDA\n----------------------------------------\n", variabili[i]);
+        count_valid++;
+
+
       }else {
         printf("%s -> ERRORE nella riga %d\n----------------------------------------\n", variabili[i],indice_riga);
+        count_invalid++;
       }
     }
   }
