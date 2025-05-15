@@ -1,60 +1,73 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "CheckDirettive.h"
 #include "DeleteComments.h"
 #include "VarChecker.h"
 
-/*
-_Statistiche di elaborazione_
-numero di variabili controllate
-numero di errori rilevati
-per ogni errore rilevato, nome del file in cui e' stato rilevato e numero di riga nel file.
-numero di righe di commento eliminate
-numero di file inclusi
-per il file di input la dimensione in byte ed il numero di righe (pre processamento)
-per ogni file incluso dimensione in byte e numero di righe (pre processamento)
-numero di righe e dimensione dell'output
-
-L'output sopra riportato deve poter essere abilitato/disabilitato mediante l'opzione -v, --verbose.
-
-
-creiamo un file, esso verrà aperto da ognuna delle nostre funzioni e ognuna di essere scriverà
-qualcosa senza sovrascrivere quello che già c'è;
-
-il nostro file si chiamerà 'statistiche'
-
-il problema su come stamparlo su terminale è un problema del noi del futuro
- */
-
 //argc -> contatore degli argomenti passati
 //argv -> array di stringhe simil Java
 //Sono essenziali per i parametri da passare
+void checkNextArg(int i, int argc, const char *nomeString) {
+  if (i + 1 >= argc) {
+    fprintf(stderr, "Errore: nessun argomento dopo %s\n", nomeString);
+    exit(4);
+  }
+}
+
+/* TUTTI I RETURN
+* return 0 -> Terminato con successo
+* return 1 -> Errore apertura file statistiche
+* return 2 -> Errore apertura file input
+* return 3 -> Errore apertura file output
+* return 4 -> Errore argomento non specificato dopo identificatore (es. -i)
+* return 5 -> Errore no file input specificato*/
 int main(int argc, char *argv[]) {
-  FILE *statistiche;
-  FILE *test;
+  FILE *input, *statistiche, *output;
+  bool in = false, out = false, verbose = false;
 
-  statistiche = fopen("statistiche.txt", "w+"); //creiamo il file per le statistiche
-  test = fopen("test1.c", "r"); //apriamo il file di test
-
-  //verifichiamo che i file si aprano correttamente
-  if (!statistiche || !test) {
-    perror("errore nell'apertura del file");
-    return 1;
+  for(int i = 0; i < argc; i++) {
+    if(strcmp(argv[i], "-i") == 0) {
+      checkNextArg(i, argc, "-i");
+      input = fopen(argv[i+1], "r+");
+      in = true;
+    }else if(strcmp(argv[i], "-o") == 0) {
+      checkNextArg(i, argc, "-o");
+      output = fopen(argv[i+1], "w+");
+      out = true;
+    }else if(strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--verbose") == 0) {
+      statistiche = fopen("statistiche.txt", "w+"); //creiamo il file per le statistiche
+      verbose = true;
+    }else if(strstr(argv[i], "--in=") != NULL) {
+      input = fopen( strchr(argv[i],'=') + 1 , "r+");
+      in = true;
+    }else if(strstr(argv[i], "--out=") != NULL) {
+      output = fopen( strchr(argv[i],'=') + 1 , "w+");
+      out = true;
+    }
   }
 
-  checkInclude(test, statistiche);
-  //comment_remover(test, statistiche);
-  //var_checker(test, statistiche);
-// FERMIAMOCI QUI PLS, devo capire alcune cose ( devo fare il punto della situazione e capire come muovermi per continuare il corpo della funzione )
-// Domani ( oppure io stasera se c'ho voglia ) creiamo uno schemetto per il funzionamento del main (devo committare)
-  fclose(statistiche);
-  return 0;
+  if(!in) {
+    printf("Errore: nessun file input specificato\n");
+    return 5;
+  }
 
+  //Verifichiamo che i file si aprano correttamente
+  if (!statistiche && verbose) {
+    perror("Errore nell'apertura del file statistiche\n");
+    return 1;
+  }
+  if(!input) {
+    perror("Errore nell'apertura del file input\n");
+    return 2;
+  }
+  if(!output && out) {
+    perror("Errore nell'apertura del file output\n");
+    return 3;
+  }
 
-
-
-
-
-
-
+  if(input) fclose(input);
+  if(output) fclose(output);
+  if(statistiche) fclose(statistiche);
   return 0;
 }
