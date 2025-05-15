@@ -24,16 +24,19 @@ void checkNextArg(int i, int argc, const char *nomeString) {
 * return 5 -> Errore no file input specificato*/
 int main(int argc, char *argv[]) {
   FILE *input, *statistiche, *output;
+  char *nome_input, *nome_output;
   bool in = false, out = false, verbose = false;
 
   for(int i = 0; i < argc; i++) {
     if(strcmp(argv[i], "-i") == 0) {
       checkNextArg(i, argc, "-i");
       input = fopen(argv[i+1], "r+");
+      nome_input = argv[i+1];
       in = true;
     }else if(strcmp(argv[i], "-o") == 0) {
       checkNextArg(i, argc, "-o");
       output = fopen(argv[i+1], "w+");
+      nome_output = argv[i+1];
       out = true;
     }else if(strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--verbose") == 0) {
       statistiche = fopen("statistiche.txt", "w+"); //creiamo il file per le statistiche
@@ -65,6 +68,9 @@ int main(int argc, char *argv[]) {
     perror("Errore nell'apertura del file output\n");
     return 3;
   }
+
+  deleteComments(input, output, nome_input, nome_output);
+
 
   if(input) fclose(input);
   if(output) fclose(output);

@@ -11,27 +11,16 @@ bool checkFile(FILE *prova)
     return false;
 }
 
-int deleteComments(int argc, char * argv[]) {
+int deleteComments(FILE *input, FILE *output, char* nome_input, char* nome_output) {
   bool delete = false;
   char riga[256];
-  FILE *prova;
-  FILE *temp;
   int i;
 
-  prova = fopen("test/test2.c", "r");
-  temp = fopen("test/prova_temp.txt", "w+");
-
-  // w+ apre il file in lettura e scrittura. Anche r+ fa lo stesso , ma senza andarlo a creare se inesistente
-
-  if (checkFile(prova) && checkFile(temp)) {
-    printf("File aperti correttamente\n");
-  } else {
-    perror("ricontrolla!\n");
-    return 0;
-  }
+  //prova = fopen("test/test2.c", "r");
+  //temp = fopen("test/prova_temp.txt", "w+");
 
   // Cicla le righe
-  while(fgets(riga, sizeof(riga), prova) != NULL) {
+  while(fgets(riga, sizeof(riga), input) != NULL) {
 
     if (strstr(riga, "/*") && strstr(riga, "*/")) {
       for (int y = 0; y < (int)strlen(riga); y++) {
@@ -58,7 +47,7 @@ int deleteComments(int argc, char * argv[]) {
         }
       }
 
-      while(delete == true && fgets(riga, sizeof(riga)-1, prova) != NULL) {
+      while(delete == true && fgets(riga, sizeof(riga)-1, input) != NULL) {
         for (i=0; i < strlen(riga); i++) {
           if (riga[i] == '*' && riga[i+1] == '/') {
             delete = false;
@@ -85,18 +74,18 @@ int deleteComments(int argc, char * argv[]) {
       // Se la riga non finisce con \n, lo aggiungiamo noi
       size_t len = strlen(riga);
       if (riga[len - 1] != '\n') {
-        fprintf(temp, "%s\n", riga);
+        fprintf(output, "%s\n", riga);
       } else {
-        fprintf(temp, "%s", riga);
+        fprintf(output, "%s", riga);
       }
     }
   }
 
-  fclose(prova);
-  fclose(temp);
+  fclose(input);
+  fclose(output);
 
-  remove("test/prova.txt");
-  rename("test/temp.txt", "test/prova.txt");
+  remove(nome_input);
+  rename(nome_output, nome_input);
   printf("File sovrascritto con i commenti rimossi.\n");
   return 0;
 }
