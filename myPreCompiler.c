@@ -70,6 +70,7 @@ int main(int argc, char *argv[]) {
     return 3;
   }
 
+  checkFileSize(input,statistiche,nome_input);
   deleteComments(input, output, statistiche, nome_input, nome_output,false);
   checkInclude(input, statistiche, nome_input, nome_output);
   deleteComments(input, output, statistiche, nome_input, nome_output,true);

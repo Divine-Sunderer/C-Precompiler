@@ -2,6 +2,8 @@
 #include<stdlib.h>
 #include<string.h>
 #include<stdbool.h>
+
+#include "checkFileSize.h"
 // return 1 -> file non aperto correttamente
 // ruturn 2 -> errore inerente a malloc
 
@@ -51,6 +53,11 @@ int checkInclude(FILE *principale, FILE *statistiche, char* nome_input, char* no
         str_din[fine - inizio] = '\0';              //Altrimenti non avrebbe fine
 
         dir = fopen(str_din, "r+");
+        fprintf(statistiche, "statistiche del file: %s\n", str_din);
+        //righe e dimensione per ogni file incluso, il cui nome è nella variabile dir
+        checkFileLenght(dir, statistiche, nome_input);
+        checkFileSize(dir, statistiche, nome_input);
+
         count_include++;
 
         while(fgets(raw, sizeof(raw), dir) != NULL){
@@ -64,6 +71,8 @@ int checkInclude(FILE *principale, FILE *statistiche, char* nome_input, char* no
   }
 
   fprintf(statistiche, "Numero di file inclusi: %d\n", count_include);
+
+
   fclose(statistiche);
 
   fclose(nuovo);

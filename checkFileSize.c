@@ -28,7 +28,7 @@ void checkFileSize(FILE *input, FILE *statistiche, char *nome_input) {
   dim = ftell(input);
   printf("La dimensione del file %s è: %ld\n",nome_input,dim);
 
-  checkFileLenght(input, statistiche);
+  checkFileLenght(input, statistiche, nome_input);
 
   rewind(input);
   fclose(input);
