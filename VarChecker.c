@@ -49,20 +49,15 @@ char* charCleaner(char *str) {
   return str;
 }
 
-int varChecker() {
+int varChecker(FILE *principale, char* nome_input) {
   int index = 0;
   int indice_riga = 0;
   bool trovato = false;
-  FILE *principale;
 
-  int count_valid = 0;
-  int count_invalid = 0;
+  int count_valid = 0, count_invalid = 0, tot_var = 0;
 
   char *variabili[20];                                                                                                  // Andra' a contenere le variabili spezzate
   int index_variabili = 0;
-  //char stringa[] = "int char canzon,edimerda rrrr = 3;";
-  //char stringa[] = "int pippo, paperino = 3;";
-  //char stringa[] = "int ciao;";
   char stringa[256];
   const char *tipo[] = {
     "int","char","float","double","void","short","long","unsigned","signed","auto",
@@ -70,8 +65,7 @@ int varChecker() {
   };
 
   const int tipo_lenght = sizeof(tipo) / sizeof(tipo[0]);
-  principale = fopen("test2.c", "r+");
-  if (!principale) return 1;
+  if (!principale)   principale = fopen(nome_input, "r+");
 
   while (fgets(stringa, sizeof(stringa), principale)) {
       index_variabili = 0;
@@ -133,11 +127,12 @@ int varChecker() {
 
 
       }else {
-        printf("%s -> ERRORE nella riga %d\n----------------------------------------\n", variabili[i],indice_riga);
+        printf("FILE:%s var:%s -> ERRORE nella riga %d\n----------------------------------------\n", nome_input,variabili[i],indice_riga);
         count_invalid++;
       }
     }
   }
+  tot_var = count_valid + count_invalid;
   fclose(principale);
   return 0;
 }

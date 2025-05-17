@@ -5,7 +5,7 @@
 // return 1 -> file non aperto correttamente
 // ruturn 2 -> errore inerente a malloc
 
-int checkInclude(FILE *principale) {
+int checkInclude(FILE *principale, char* nome_input, char* nome_output) {
   char riga[256] , raw[256];
   char *str_din , *inizio , *fine;
   bool start = false;
@@ -14,10 +14,10 @@ int checkInclude(FILE *principale) {
 
   FILE *statistiche = fopen("statistiche.txt", "r");
   int count_include = 0;
-  // Principale -> file su cui lavorare , dir -> file da includere , nuovo -> file "in return" con modifiche
+  // Principale -> file su cui lavorare, dir -> file da includere, nuovo -> file "in return" con modifiche
 
-  principale = fopen("test1.c", "r+");
-  nuovo = fopen("nuovo_prova_1.txt", "w+");
+  principale = fopen(nome_input, "r+");
+  nuovo = fopen(nome_output, "w+");
   if (!principale) return 1;
   if (!nuovo) return 1;
 
@@ -63,9 +63,13 @@ int checkInclude(FILE *principale) {
       }
   }
 
-  fprintf(statistiche, "numero di file inclusi: %d\n", count_include);
+  fprintf(statistiche, "Numero di file inclusi: %d\n", count_include);
   fclose(statistiche);
+
   fclose(nuovo);
   fclose(principale);
+
+  remove(nome_input);
+  rename(nome_output, nome_input);
   return 0;
 }

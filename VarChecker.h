@@ -1,5 +1,6 @@
 #ifndef VARCHECKER_H
 #define VARCHECKER_H
+#include <stdio.h>
 const char *parole_riservate[] = {
     "break", "case", "continue", "default", "do",
     "else", "for", "goto", "if", "inline", "restrict",
@@ -12,6 +13,6 @@ int isValidName(char *var);
 char* eliminaSpaziIniziali(char str[]);
 char* extendedTrim(char *str);
 char* charCleaner(char *str);
-int varChecker(char *var);
+int varChecker(FILE *principale,char *nome_input);
 
 #endif //VARCHECKER_H

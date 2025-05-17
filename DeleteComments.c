@@ -14,10 +14,9 @@ bool checkFile(FILE *prova)
 int deleteComments(FILE *input, FILE *output, char* nome_input, char* nome_output) {
   bool delete = false;
   char riga[256];
-  int i;
+  int i, righe_del = 0;
 
-  //prova = fopen("test/test2.c", "r");
-  //temp = fopen("test/prova_temp.txt", "w+");
+  if(!output) output = fopen(nome_output, "w+");
 
   // Cicla le righe
   while(fgets(riga, sizeof(riga), input) != NULL) {
@@ -32,6 +31,7 @@ int deleteComments(FILE *input, FILE *output, char* nome_input, char* nome_outpu
           // cancella anche */
           riga[y] = ' ';
           riga[y+1] = ' ';
+          righe_del++;
           break;
         }
       }
@@ -43,6 +43,7 @@ int deleteComments(FILE *input, FILE *output, char* nome_input, char* nome_outpu
           delete = true;
           riga[i] = ' ';
           riga[i+1] = ' ';
+          righe_del++;
           break;
         }
       }
@@ -53,12 +54,14 @@ int deleteComments(FILE *input, FILE *output, char* nome_input, char* nome_outpu
             delete = false;
             riga[i] = ' ';
             riga[i+1] = ' ';
+            righe_del++;
             break;
           }
           else {
             riga[i] = ' ';
           }
         }
+        righe_del++;
         i = 0; //ricominciamo dall'inizio della riga successiva
       }
     }
@@ -67,6 +70,7 @@ int deleteComments(FILE *input, FILE *output, char* nome_input, char* nome_outpu
       char *comment_start = strstr(riga, "//");
       if (comment_start != NULL) {
         *comment_start = '\0';
+        righe_del++;
       }
     }
     // Scrive la riga pulita nel file temporaneo
@@ -81,11 +85,16 @@ int deleteComments(FILE *input, FILE *output, char* nome_input, char* nome_outpu
     }
   }
 
+  rewind(input);
+  rewind(output);
+  // Altrimenti non vengono riportati i puntatori all'inizio
   fclose(input);
   fclose(output);
 
   remove(nome_input);
   rename(nome_output, nome_input);
+
+  printf("Righe di commento cancellate: %d\n",righe_del);
   printf("File sovrascritto con i commenti rimossi.\n");
   return 0;
 }

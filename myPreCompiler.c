@@ -4,6 +4,7 @@
 #include "CheckDirettive.h"
 #include "DeleteComments.h"
 #include "VarChecker.h"
+#include "checkFileSize.h"
 
 //argc -> contatore degli argomenti passati
 //argv -> array di stringhe simil Java
@@ -69,7 +70,11 @@ int main(int argc, char *argv[]) {
     return 3;
   }
 
+
   deleteComments(input, output, nome_input, nome_output);
+  checkInclude(input);
+  deleteComments(input, output, nome_input, nome_output);
+  varChecker(input, nome_input);
 
 
   if(input) fclose(input);
