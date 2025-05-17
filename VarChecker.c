@@ -49,7 +49,7 @@ char* charCleaner(char *str) {
   return str;
 }
 
-int varChecker(FILE *principale, char* nome_input) {
+int varChecker(FILE *principale, char* nome_input, FILE *statistiche) {
   int index = 0;
   int indice_riga = 0;
   bool trovato = false;
@@ -129,10 +129,13 @@ int varChecker(FILE *principale, char* nome_input) {
       }else {
         printf("FILE:%s var:%s -> ERRORE nella riga %d\n----------------------------------------\n", nome_input,variabili[i],indice_riga);
         count_invalid++;
+        fprintf(statistiche, "errore - %s - rilevato alla riga %d del file %s\n", variabili[i],indice_riga, nome_input );
+
       }
     }
   }
-  tot_var = count_valid + count_invalid;
+  fprintf(statistiche, "numero di variabili controllate: %d\n", tot_var);
+  fprintf(statistiche, "numero di errori rilevati: %d\n", count_invalid);
   fclose(principale);
   return 0;
 }

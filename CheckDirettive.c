@@ -5,14 +5,14 @@
 // return 1 -> file non aperto correttamente
 // ruturn 2 -> errore inerente a malloc
 
-int checkInclude(FILE *principale, char* nome_input, char* nome_output) {
+int checkInclude(FILE *principale, FILE *statistiche, char* nome_input, char* nome_output) {
   char riga[256] , raw[256];
   char *str_din , *inizio , *fine;
   bool start = false;
   int count_str = 0;
   FILE *dir, *nuovo;
 
-  FILE *statistiche = fopen("statistiche.txt", "r");
+  statistiche = fopen("statistiche.txt", "r");
   int count_include = 0;
   // Principale -> file su cui lavorare, dir -> file da includere, nuovo -> file "in return" con modifiche
 

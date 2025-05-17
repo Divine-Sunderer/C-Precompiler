@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdbool.h>
+#include "checkFileSize.h"
 
 bool checkFile(FILE *prova)
 {
@@ -11,12 +12,14 @@ bool checkFile(FILE *prova)
     return false;
 }
 
-int deleteComments(FILE *input, FILE *output, char* nome_input, char* nome_output) {
+int deleteComments(FILE *input, FILE *output, FILE *statistiche, char* nome_input, char* nome_output, bool checkFinale) {
   bool delete = false;
   char riga[256];
   int i, righe_del = 0;
 
   if(!output) output = fopen(nome_output, "w+");
+
+  statistiche = fopen("statistiche.txt", "r");
 
   // Cicla le righe
   while(fgets(riga, sizeof(riga), input) != NULL) {
@@ -95,6 +98,9 @@ int deleteComments(FILE *input, FILE *output, char* nome_input, char* nome_outpu
   rename(nome_output, nome_input);
 
   printf("Righe di commento cancellate: %d\n",righe_del);
+  fprintf(statistiche, "Righe di commento cancellate: %d\n",righe_del);
+
+  if (checkFinale) checkFileSize(input, statistiche, nome_input);
   printf("File sovrascritto con i commenti rimossi.\n");
   return 0;
 }

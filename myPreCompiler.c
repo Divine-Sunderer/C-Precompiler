@@ -70,12 +70,10 @@ int main(int argc, char *argv[]) {
     return 3;
   }
 
-
-  deleteComments(input, output, nome_input, nome_output);
-  checkInclude(input);
-  deleteComments(input, output, nome_input, nome_output);
-  varChecker(input, nome_input);
-
+  deleteComments(input, output, statistiche, nome_input, nome_output,false);
+  checkInclude(input, statistiche, nome_input, nome_output);
+  deleteComments(input, output, statistiche, nome_input, nome_output,true);
+  varChecker(input, nome_input, statistiche);
 
   if(input) fclose(input);
   if(output) fclose(output);

@@ -13,6 +13,6 @@ int isValidName(char *var);
 char* eliminaSpaziIniziali(char str[]);
 char* extendedTrim(char *str);
 char* charCleaner(char *str);
-int varChecker(FILE *principale,char *nome_input);
+int varChecker(FILE *principale,char *nome_input, FILE *statistiche);
 
 #endif //VARCHECKER_H

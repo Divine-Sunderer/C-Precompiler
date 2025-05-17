@@ -2,6 +2,6 @@
 #define CHECKDIRETTIVE_H
 #include <stdio.h>
 
-int checkInclude(FILE *principale);
+int checkInclude(FILE *principale, FILE *statistiche, char *nome_input, char *nome_output);
 
 #endif //CHECKDIRETTIVE_H

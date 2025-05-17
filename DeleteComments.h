@@ -4,6 +4,6 @@
 #include <stdbool.h>
 
 bool checkFile(FILE *prova);
-int deleteComments(FILE *input, FILE *output, char* nome_input, char* nome_output);
+int deleteComments(FILE *input, FILE *output, FILE *statistiche, char* nome_input, char* nome_output, bool checkFinale);
 
 #endif //DELETECOMMENTS_H
