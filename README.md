@@ -77,7 +77,7 @@ Il programma myPreCompiler deve altresi' poter restituire come risultato, sullo 
 - per il file di input la dimensione in byte ed il numero di righe (pre processamento)
 - per ogni file incluso dimensione in byte e numero di righe (pre processamento)
 - numero di righe e dimensione dell'output
-- 
+
 L'output sopra riportato deve poter essere abilitato/disabilitato mediante l'opzione -v, --verbose. Ad esempio
 ```bash
 myPreCompiler -v -c nome_file_input.c -o nome_file_output
