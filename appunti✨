@@ -1,4 +1,5 @@
 problemi da risolvere:
 - il file di output non viene generato se non si compila il file con -v
-- il file delle statistiche non viene completamente riportato
-- funziona solo la prima funzione, e neanche così bene
+- il file delle statistiche non viene compilato correttamente
+- funziona solo la prima funzione
+- con -v viene generato il file delle statistiche, con -verbose no
