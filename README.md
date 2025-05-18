@@ -1,6 +1,6 @@
 Homework 1 del corso Sistemi Operativi II del corso di laurea in Informatica della Sapienza Università di Roma
 di Cristina Porceddu @crostataa e Antonio Salvati @Divine-Sunderer
-Il progetto consiste nella realizzazione in linguaggio C di un programma che simuli la precompilazione di un programma c
+Il progetto consiste nella realizzazione in linguaggio C di un programma che simuli la precompilazione di un programma c \n
 -+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ## Traccia del Progetto ## 
 Sviluppare un applicazione che, dato un file contenente del codice C, lo elabori come segue
